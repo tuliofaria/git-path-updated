@@ -21,20 +21,24 @@ const run = async () => {
   if (!argv.path) {
     console.log('wrong parameters. Try to pass: path')
   } else {
-    const { path } = argv
+    const { path, showDiff } = argv
     const output = await execShellCommand(
-      'git diff --exit-code HEAD^ HEAD -- ./'
+      'git diff --exit-code HEAD^ HEAD -- ' + path
     )
-    console.log(__dirname)
-    console.log(output)
-    /*
-    if (result.data.merged) {
-      console.log('pull request already merged')
+
+    if (showDiff) {
+      console.log(' ===== diff ====')
+      console.log(output)
+      console.log(' ===== /diff ====')
+    }
+
+    if (output.length === 0) {
+      console.log('nothing changed')
       process.exitCode = 0
     } else {
-      console.log('pull request not merged')
+      console.log('changes in this path')
       process.exitCode = 1
-    }*/
+    }
   }
 }
 run()
