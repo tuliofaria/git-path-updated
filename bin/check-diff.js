@@ -9,6 +9,7 @@ const execShellCommand = (cmd) => {
     exec(cmd, (error, stdout, stderr) => {
       if (error) {
         console.warn(error)
+        reject(error)
       }
       resolve(stdout ? stdout : stderr)
     })
@@ -22,8 +23,9 @@ const run = async () => {
   } else {
     const { path } = argv
     const output = await execShellCommand(
-      'git diff --exit-code HEAD^ HEAD -- ./apps/alunotv-frontend'
+      'git diff --exit-code HEAD^ HEAD -- ./'
     )
+    console.log(__dirname)
     console.log(output)
     /*
     if (result.data.merged) {
